@@ -1,0 +1,8 @@
+notes.md
+__pycache__/
+.vscode/
+parsed/
+structs/
+uploads/
+venv/
+.ruff_cache/
