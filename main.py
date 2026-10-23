@@ -6,6 +6,7 @@ from pathlib import Path
 import anyio
 import httpx
 from fastapi import BackgroundTasks, FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from langchain_core.messages import HumanMessage
 from langchain_ollama import ChatOllama
 from pydantic import BaseModel, Field
@@ -22,7 +23,17 @@ PARSED_DIR.mkdir(parents=True, exist_ok=True)
 ALLOWED_EXTS = {".jpg", ".jpeg", ".png", ".bmp", ".tiff", ".webp"}
 
 app = FastAPI(title="OCR Service")
+origins = [
+    "http://localhost:5173"
+]
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 llm = ChatOllama(model="qwen2.5vl:3b", temperature=0.0)
 
 tasks: dict[str, dict] = {}
